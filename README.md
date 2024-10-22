@@ -1,50 +1,74 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Collaborative Text Editor
 
-Currently, two official plugins are available:
+A real-time collaborative text editor built with WebSocket and React, allowing multiple users to collaborate with one user editing at a time and others seeing updates in real-time.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Real-time collaborative editing
+- User presence indicator
+- Locking mechanism to prevent concurrent edits
+- Automatic updates to all connected clients
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## External Libraries
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: For building the user interface
+- **Quill**: A rich text editor for enhanced editing experience
+- **ws**: A WebSocket library for Node.js
+- **Node.js**: JavaScript runtime for building server-side applications
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Getting Started
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Prerequisites
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Node.js (v14 or higher)
+- npm (Node Package Manager)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Setup Instructions
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd collaborative-text-editor
+   ```
+
+2. **Install server dependencies**
+
+   Navigate to the server directory and install the required packages:
+
+   ```bash
+   cd server
+   npm install
+   ```
+
+3. **Install client dependencies**
+
+   Navigate to the client directory and install the required packages:
+
+   ```bash
+   cd client
+   npm install
+   ```
+
+4. **Run the server**
+
+   Navigate back to the server directory and start the WebSocket server:
+
+   ```bash
+   cd server
+   npm start
+   ```
+
+5. **Run the client**
+
+   Open a new terminal window, navigate to the client directory, and start the React application:
+
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+6. **Access the application**
+
+   Open your browser and go to `http://localhost:5173`. You can open multiple tabs or browsers to test the collaborative editing feature.
