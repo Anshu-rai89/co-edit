@@ -1,11 +1,13 @@
+import React from "react";
 import './App.css'
+import CollaborativeTextArea from "./components/collabrativeTextArea";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
+    <div className="app-container">
+      <CollaborativeTextArea userId="1"/>
+    </div>
+  );
+};
 
-    </>
-  )
-}
-
-export default App
+export default App;
