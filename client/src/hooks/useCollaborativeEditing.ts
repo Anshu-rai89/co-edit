@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { setupWebSocket } from '../utils/websocket';
 
 export const useCollaborativeEditing = (userName: string) => {
@@ -26,10 +26,10 @@ export const useCollaborativeEditing = (userName: string) => {
         };
     }, [userName]);
 
-    const handleMessage = (message: MessageEvent) => {
+    const handleMessage = useCallback((message: MessageEvent) => {
         const data = message.data instanceof Blob ? parseBlobData(message.data) : JSON.parse(message.data);
         handleEvent(data);
-    };
+    }, []);
 
     const parseBlobData = (blob: Blob): Promise<any> => {
         return new Promise((resolve) => {
@@ -39,7 +39,7 @@ export const useCollaborativeEditing = (userName: string) => {
         });
     };
 
-    const handleEvent = (data: any) => {
+    const handleEvent = useCallback((data: any) => {
         const { event, userName: senderUserName, content: newContent, editingUserName: newEditingUserName } = data;
 
         switch (event) {
@@ -63,20 +63,20 @@ export const useCollaborativeEditing = (userName: string) => {
         }
 
         setEditingUserName(newEditingUserName);
-    };
+    }, [userName]);
 
-    const handleUserConnect = (senderUserName: string) => {
+    const handleUserConnect = useCallback((senderUserName: string) => {
         setUsers((prevUsers) => [...prevUsers, { userName: senderUserName, isEditing: false }]);
-    };
+    }, []);
 
-    const handleUserEdit = (newContent: string) => {
+    const handleUserEdit = useCallback((newContent: string) => {
         setContent(newContent);
         setIsLocked(true);
-    };
+    }, []);
 
-    const handleUserDisconnect = (senderUserName: string) => {
+    const handleUserDisconnect = useCallback((senderUserName: string) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.userName !== senderUserName));
-    };
+    }, []);
 
     const handleFocus = () => {
         if (!isLocked) {
@@ -92,6 +92,7 @@ export const useCollaborativeEditing = (userName: string) => {
 
     const handleChange = (newContent: string) => {
         setContent(newContent);
+        setEditingUserName(userName);
         ws?.send(JSON.stringify({ event: 'EDIT', content: newContent, userName }));
     };
 
